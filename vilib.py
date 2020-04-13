@@ -1,11 +1,9 @@
 import numpy as np
-from collections import namedtuple
 
 
 UINT8 = float(2**8 - 1)  # 255.0
 UINT14 = float(2**14 - 1)  # 16383.0
 UINT16 = float(2**16 - 1)  # 65535.0
-Bounds = namedtuple('Bounds', 'min max')
 
 
 # TODO: Convert all inputs to floats upon read
