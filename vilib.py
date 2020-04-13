@@ -195,9 +195,9 @@ def ndwi(green, nir, low=0.0, high=1.0):
 
     Identical to ndvi(), uses GREEN channel in place of RED
 
-             GREEN - NIR
-    GNDVI = -------------
-             GREEN + NIR
+            GREEN - NIR
+    NDWI = -------------
+            GREEN + NIR
 
     References: [7]
 
@@ -284,10 +284,10 @@ def evi(blue, red, nir, low=0.0, high=1.0):
            NIR + C1 * RED - C2 * BLUE + L
     """
 
-    G = 2.5
-    C1 = 6.0
-    C2 = 7.5
-    L = 1.0
+    G = 2.5  # Gain factor
+    C1 = 6.0  # Aerosol resistance coefficient
+    C2 = 7.5  # Aerosol resistance coefficient
+    L = 1.0  # Canopy background adjustment factor
 
     num = G * (nir - red)
     den = nir + C1 * red - C2 * blue + L
@@ -302,14 +302,14 @@ def evi2(red, nir, low=0.0, high=1.0):
     """
     Enhanced Vegetation Index 2
 
-             G * (NIR - RED)
+              G * (NIR - RED)
     EVI2 = --------------------
             NIR + C1 * RED + L
     """
 
-    G = 2.5
-    C1 = 2.4
-    L = 1.0
+    G = 2.5  # Gain factor
+    C1 = 2.4  # Aerosol resistance coefficient
+    L = 1.0  # Canopy background adjustment factor
 
     num = G * (nir - red)
     den = nir + C1 * red + L
@@ -432,6 +432,8 @@ def savi(red, nir, L=0.5, low=0.0, high=1.0):
     SAVI = -----------------------
                 NIR + RED + L
     """
+
+    # L = Canopy background adjustment factor
 
     num = (1 + L) * (nir - red)
     den = nir + red + L
