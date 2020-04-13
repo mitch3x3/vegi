@@ -1,15 +1,6 @@
-import numpy as np
-
-
-UINT8 = float(2**8 - 1)  # 255.0
-UINT14 = float(2**14 - 1)  # 16383.0
-UINT16 = float(2**16 - 1)  # 65535.0
-
-
-# TODO: Convert all inputs to floats upon read
-#       and remove all NaNs and Infs upon return
-
 """
+Vegetation Index Library
+
 References:
 
 [1] https://www.harrisgeospatial.com/docs/BroadbandGreenness.html
@@ -27,6 +18,13 @@ References:
 [7] http://www.gisresources.com/ndvi-ndbi-ndwi-ranges-1-1/
 
 """
+
+import numpy as np
+
+
+UINT8 = float(2**8 - 1)  # 255.0
+UINT14 = float(2**14 - 1)  # 16383.0
+UINT16 = float(2**16 - 1)  # 65535.0
 
 
 def validate(array):
@@ -54,7 +52,6 @@ def crop_to_bounds(array, low, high):
     array[array < low] = low
     array[array > high] = high
     return array
-
 
 
 def inputs_to_float(func):
