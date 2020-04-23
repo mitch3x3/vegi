@@ -1,67 +1,5 @@
-"""
-Vegetation Index Library
-
-References:
-
-[1] https://www.harrisgeospatial.com/docs/BroadbandGreenness.html
-
-[2] https://www.indexdatabase.de/db/i.php
-
-[3] https://blog.aerobotics.co/ndre-vs-ndvi-whats-the-difference-4f507662823
-
-[4] https://sentera.com/ndvi-vs-ndre-whats-difference/
-
-[5] https://support.micasense.com/hc/en-us/articles/227837307-An-overview-of-the-available-layers-and-indices-in-ATLAS
-
-[6] https://www.hindawi.com/journals/tswj/2014/142939/
-
-[7] http://www.gisresources.com/ndvi-ndbi-ndwi-ranges-1-1/
-
-"""
-
 import numpy as np
-
-
-UINT8 = float(2**8 - 1)  # 255.0
-UINT14 = float(2**14 - 1)  # 16383.0
-UINT16 = float(2**16 - 1)  # 65535.0
-
-
-def validate(array):
-    array[np.isnan(array)] = 0
-    array[np.isinf(array)] = 0
-    return array
-
-
-def rescale(array, low, high, bounds=(None, None)):
-    array = validate(array)
-
-    bmin, bmax = bounds
-
-    if low != bmin or high != bmax:
-        array = (array - low) / (high - low)
-        array = validate(array)
-
-    if bmin is not None and bmax is not None:
-        array = crop_to_bounds(array, bmin, bmax)
-
-    return array
-
-
-def crop_to_bounds(array, low, high):
-    array[array < low] = low
-    array[array > high] = high
-    return array
-
-
-def inputs_to_float(func):
-    """ Converts all positional and optional arguments to float32 """
-    def inner(*args, **kwargs):
-        args = tuple(np.asarray(x, dtype=np.float32) for x in args)
-        kwargs = dict((k, np.float32(v)) for (k, v) in kwargs.items())
-        return func(*args, **kwargs)
-
-    return inner
+from .utils import rescale, inputs_to_float
 
 
 @inputs_to_float
@@ -160,7 +98,7 @@ def ndvi(red, nir, low=-1.0, high=1.0):
 
     vi = np.divide(num, den)
 
-    return rescale(vi, low, high, bounds=(-1.0, 1.0))
+    return rescale(vi, low, high)
 
 
 def gndvi(green, nir, low=0.0, high=1.0):
@@ -186,7 +124,7 @@ def gndvi(green, nir, low=0.0, high=1.0):
 
     vi = np.divide(num, den)
 
-    return rescale(vi, low, high, bounds=(-1.0, 1.0))
+    return rescale(vi, low, high)
 
 
 def ndwi(green, nir, low=0.0, high=1.0):
@@ -215,7 +153,7 @@ def ndwi(green, nir, low=0.0, high=1.0):
 
     vi = np.divide(num, den)
 
-    return rescale(vi, low, high, bounds=(-1.0, 1.0))
+    return rescale(vi, low, high)
 
 
 def ndre(re, nir, low=0.0, high=1.0):
@@ -271,7 +209,7 @@ def ndre(re, nir, low=0.0, high=1.0):
 
     vi = np.divide(num, den)
 
-    return rescale(vi, low, high, bounds=(-1.0, 1.0))
+    return rescale(vi, low, high)
 
 
 @inputs_to_float
@@ -342,9 +280,9 @@ def gci(green, nir, low=0.0, high=1.0):
     """
     Green Chlorophyll Index
 
-            NIR
-    GCI = ------- - 1
-           GREEN
+            NIR            NIR - GREEN
+    GCI = ------- - 1  =  -------------
+           GREEN              GREEN
 
     References: [1]
 
@@ -358,49 +296,7 @@ def gci(green, nir, low=0.0, high=1.0):
 
     """
 
-    vi = np.divide(nir, green)
-
-    vi = validate(vi)
-
-    vi = np.subtract(vi, 1.0)
-
-    return rescale(vi, low, high)
-
-
-@inputs_to_float
-def gli(blue, green, red, low=0.0, high=1.0):
-    """
-    Green Leaf Index
-
-           2 * GREEN - RED - BLUE
-    GLI = ------------------------
-           2 * GREEN + RED + BLUE
-    """
-
-    num = 2 * green - red - blue
-    den = 2 * green + red + blue
-
-    vi = np.divide(num, den)
-
-    return rescale(vi, low, high)
-
-
-@inputs_to_float
-def vari(blue, green, red, low=0.0, high=1.0):
-    """
-    Visible Atmospherically Resistant Index
-
-               GREEN - RED
-    VARI = --------------------
-            GREEN + RED - BLUE
-
-    Based on ARVI
-    """
-
-    num = green - red
-    den = green + red - blue
-
-    vi = np.divide(num, den)
+    vi = np.divide(nir - green, green)
 
     return rescale(vi, low, high)
 
@@ -585,24 +481,6 @@ def gari(blue, green, red, nir, y=1.7, low=0.0, high=1.0):
 
 
 @inputs_to_float
-def vndvi(green, red, low=0.0, high=1.0):
-    """
-    Visible Normalized Difference Vegetation Index
-
-             GREEN - RED
-    VNDVI = -------------
-             GREEN + RED
-    """
-
-    num = green - red
-    den = green + red
-
-    vi = np.divide(num, den)
-
-    return rescale(vi, low, high)
-
-
-@inputs_to_float
 def tdvi(red, nir, low=0.0, high=1.0):
     """
     Transformed Difference Vegetation Index
@@ -695,7 +573,7 @@ def sipi(blue, red, nir, low=0.0, high=1.0):
 @inputs_to_float
 def sr(red, nir, low=0.0, high=1.0):
     """
-    Simple Ratio
+    Simple Ratio (SR) or Ratio Vegetation Index (RVI)
 
           NIR
     SR = -----
@@ -725,6 +603,52 @@ def tvx(red, nir, t, low=0.0, high=1.0):
     # t = rescale(t, low, high)
 
     vi = np.divide(t, ndvi(red, nir))
+
+    return rescale(vi, low, high)
+
+
+@inputs_to_float
+def ipvi(red, nir, low=0.0, high=1.0):
+    """
+    Infrared Percentage Ratio Index
+
+               NIR
+    IPVI = -----------
+            NIR + RED
+    """
+
+    vi = np.divide(nir, red)
+
+    return rescale(vi, low, high)
+
+
+@inputs_to_float
+def dvi(red, nir, low=0.0, high=1.0):
+    """
+    Difference Vegetation Index
+
+    DVI = NIR - RED
+    """
+
+    vi = nir - red
+
+    return rescale(vi, low, high)
+
+
+@inputs_to_float
+def grndvi(red, nir, low=0.0, high=1.0):
+    """
+    Green Red Normalized Vegetation Index
+
+              NIR - (GREEN + RED)
+    GRNDVI = ---------------------
+              NIR + (GREEN + RED)
+    """
+
+    num = nir - (green + red)
+    den = nir + (green + red)
+
+    vi = np.divide(num, den)
 
     return rescale(vi, low, high)
 
