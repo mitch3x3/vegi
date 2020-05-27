@@ -1,3 +1,4 @@
+import functools
 import numpy as np
 
 
@@ -39,6 +40,7 @@ def crop_to_bounds(array, low, high):
 
 def inputs_to_float(func):
     """Converts all positional and optional arguments to float32"""
+    @functools.wraps(func)
     def inner(*args, **kwargs):
         args = tuple(np.asarray(x, dtype=np.float32) for x in args)
         kwargs = dict((k, np.float32(v)) for (k, v) in kwargs.items())
