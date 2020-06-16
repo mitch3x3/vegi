@@ -11,7 +11,7 @@ Input arguments follow a convention of increasing wavelength using their full lo
 Examples:
 
 ``` python
-import vilib as vi
+import vegi as vi
 
 array = vi.ndvi(red, nir)
 
