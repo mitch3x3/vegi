@@ -1,6 +1,6 @@
 import os
 import numpy as np
-import vilib as vi
+import vegi as vi
 import random
 
 def r(a, b):
