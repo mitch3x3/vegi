@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="static/images/vegi_raleway_transparent.png" alt="vegi" height="200px">
+</p>
+
 # Vegetation Index Library
 
-Python Library for Vegetation Indexes
+Python Library for deriving vegetation indexes from satellite or aerial imagery
 
 [Full Index List](docs/index_list.md)
 
