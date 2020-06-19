@@ -1,25 +1,35 @@
 <p align="center">
-  <img src="static/images/vegi_raleway_transparent.png" alt="vegi" height="200px">
+  <img src="static/images/vegi_raleway_transparent.png" alt="vegi" height="160px">
 </p>
 
-# Vegetation Index Library
+---
 
 Python Library for deriving vegetation indexes from satellite or aerial imagery
 
+---
+
 [Full Index List](docs/index_list.md)
 
-## Information
+---
+
+## Usage
 
 Input arguments follow a convention of increasing wavelength using their full lowercase color as the variable name.
 
-Examples:
-
 ``` python
-import vegi as vi
+import vegi
 
-array = vi.ndvi(red, nir)
+# Normalized Difference Vegetation Index
+array = vegi.ndvi(red, nir)
 
-array = vi.grvi(green, red)
+# Green Atmospherically Resistant Vegetation Index
+array = vegi.gari(blue, green, red, nir)
 
-array = vi.gari(blue, green, red, nir)
+# Soil Adjusted Vegetation Index
+array = vegi.savi(red, nir, L=0.5)
 ```
+
+## Dependencies
+
+- `numpy`
+- `rasterio`
