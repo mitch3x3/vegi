@@ -17,19 +17,16 @@ Python Library for deriving vegetation indexes from satellite or aerial imagery
 Input arguments follow a convention of increasing wavelength using their full lowercase color as the variable name.
 
 ``` python
-import vegi as vi
+import vegi
 
 # Normalized Difference Vegetation Index
-array = vi.ndvi(red, nir)
-
-# Chlorophyll Vegetation Index
-array = vi.cvi(green, red, nir)
+array = vegi.ndvi(red, nir)
 
 # Green Atmospherically Resistant Vegetation Index
-array = vi.gari(blue, green, red, nir)
+array = vegi.gari(blue, green, red, nir)
 
 # Soil Adjusted Vegetation Index
-array = vi.savi(red, nir, L=0.5)
+array = vegi.savi(red, nir, L=0.5)
 ```
 
 ## Dependencies
