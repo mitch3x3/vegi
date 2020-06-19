@@ -6,11 +6,20 @@
 
 Python Library for deriving vegetation indexes from satellite or aerial imagery
 
----
-
 [Full Index List](docs/index_list.md)
 
 ---
+
+## Installation
+
+``` bash
+pip install vegi
+```
+
+###  Dependencies
+
+- `numpy`
+- `rasterio`
 
 ## Usage
 
@@ -28,8 +37,3 @@ array = vegi.gari(blue, green, red, nir)
 # Soil Adjusted Vegetation Index
 array = vegi.savi(red, nir, L=0.5)
 ```
-
-## Dependencies
-
-- `numpy`
-- `rasterio`
