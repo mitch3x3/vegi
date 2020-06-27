@@ -14,12 +14,12 @@ https://www.codecogs.com/latex/eqneditor.php
 </br>
 </br>
 
-<img src="https://latex.codecogs.com/svg.latex?NDWI&space;=&space;\frac{GREEN-NIR}{GREEN-NIR}" title="GNDVI = \frac{GREEN-NIR}{GREEN-NIR}" />
+<img src="https://latex.codecogs.com/svg.latex?NDWI&space;=&space;\frac{GREEN-NIR}{GREEN&plus;NIR}" title="GNDVI = \frac{GREEN-NIR}{GREEN+NIR}" />
 
 </br>
 </br>
 
-<img src="https://latex.codecogs.com/svg.latex?NDRE&space;=&space;\frac{NIR-REDEDGE}{NIR-REDEDGE}" title="NDRE = \frac{NIR-REDEDGE}{NIR-REDEDGE}" />
+<img src="https://latex.codecogs.com/svg.latex?NDRE&space;=&space;\frac{NIR-REDEDGE}{NIR&plus;REDEDGE}" title="NDRE = \frac{NIR-REDEDGE}{NIR+REDEDGE}" />
 
 </br>
 </br>
